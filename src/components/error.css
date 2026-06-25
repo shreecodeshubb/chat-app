@@ -1,0 +1,17 @@
+.error{
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+color: rgb(241, 239, 239);
+background-color: black;
+font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+font-size: x-large;
+flex-direction: column;
+gap: 40px;
+}
+
+a{
+    color: brown ;
+    text-decoration: none;
+}
