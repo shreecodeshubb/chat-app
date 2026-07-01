@@ -58,7 +58,7 @@ if (loading) return <Loading/>
     <input onChange={handleChange} style={{padding:"0.7rem 0.7rem", width:"280px", fontSize:"18px", outline:"0.2px solid #000", boxShadow:"2px 5px 5px #000", borderRadius:"10px" , backgroundColor:"#e4dadae0" , border:"none"}} type="text"   placeholder='Name' name="name"/>
      <input onChange={handleChange} style={{padding:"0.7rem 0.7rem", width:"280px", fontSize:"18px", outline:"0.2px solid #000", boxShadow:"2px 5px 5px #000", borderRadius:"10px", backgroundColor:"#e4dadae0", border:"none"}} type="email"  placeholder='Email' name="email"/>
       <input onChange={handleChange} style={{padding:"0.7rem 0.7rem", width:"280px", fontSize:"18px", outline:"0.2px solid #000", boxShadow:"2px 5px 5px #000", borderRadius:"10px", backgroundColor:"#e4dadae0", border:"none"}} type="password"  placeholder='Password' name="password"/>
-      <button style={{padding:"0.8rem 7rem", borderRadius:"18px", backgroundColor:"#8a90cc" }}>Submit</button>
+      <button style={{padding:"0.7rem 7rem", borderRadius:"18px", backgroundColor:"#8a90cc" }}>Submit</button>
   
    <div style={{display:"flex", justifyContent:"center", alignItems:"center", gap:"10px", flexDirection:"column",}}>
         <p style={{color:"#584c4c"}}>Already have an account?</p>
