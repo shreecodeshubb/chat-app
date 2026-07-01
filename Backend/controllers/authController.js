@@ -26,12 +26,23 @@ export const Register = async (req,res)=>{
         secure:process.env.NODE_ENV === "production",
         maxAge: 7*24*60*60*1000
       });
-      res.status(201).json({message:"User Created Successfully"})
+        return res.status(200).json({
+      success:true,
+      message:"Registered successful",
+      user:{
+        id: user._id,
+        email: user.email
+      }
+    });
        
 
 
     } catch (error) {
         console.error("Error while user Registration", error)
+         return res.status(500).json({
+          success:false,
+          message:error.message
+         })
     }
 }
 
@@ -56,10 +67,25 @@ res.cookie("token", token,{
   httpOnly:true,
   secure:process.env.NODE_ENV === "production",
   maxAge: 7 * 24 * 60 * 60 * 1000,
+  sameSite:"lax"
 })
+
+    return res.status(200).json({
+      success:true,
+      message:"Login successful",
+      user:{
+        id: existUser._id,
+        email: existUser.email
+      }
+    });
+
 
 } catch (error) {
     console.error("error during loggin", error)
+    return res.status(500).json({
+          success:false,
+          message:error.message
+         })
    }
 }
 
@@ -73,8 +99,14 @@ export const Logout = async (req,res)=>{
     res.cookie("token", "",{
       httpOnly:true,
       secure: process.env.NODE_ENV === "production",
-      expires: new Date(0),
+      expires: new Date(),
+      sameSite: "lax"
     } );
+
+    res.status(200).json({
+      success:true,
+      message:"Successfully Logout"
+    })
 
 }
 
@@ -82,6 +114,7 @@ export const Logout = async (req,res)=>{
 //Get my user Controller
 
 export const myUser = async (req,res)=>{
+  console.log("user info ", req.user)
   res.json(req.user);
 }
 

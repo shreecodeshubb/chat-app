@@ -6,9 +6,9 @@ import { configDb } from './models/dbConfig.js';
 import { socketMiddleware } from './middleware/socket.js';
 import cors from 'cors';
 
+
 import "dotenv/config";
 import cookieParser from 'cookie-parser';
-configDb();
 const PORT = Number(process.env.PORT) || 3000;
 
 
@@ -30,8 +30,8 @@ socketMiddleware(io);
 
 io.on("connection", (socket)=>{
      console.log("connected to socket ", socket.id)
-     io.on("send",(msg)=>{
-        console.log(msg)
+     socket.on("send",(msg)=>{
+        console.log("message recieved", msg)
      })
 })
 
@@ -43,11 +43,16 @@ app.use(cookieParser());
 app.use("/api", authRoute );
 
 
+
+const connectServer=async()=>{
+
+await configDb()
 server.listen(PORT, ()=>{
     console.log(`app is listening on port ${PORT}`)
 });
 
+}
 
 
-
+connectServer();
 

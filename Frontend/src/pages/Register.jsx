@@ -1,18 +1,22 @@
-import { useState } from "react"
+import { useState, useContext } from "react"
+import { UserContext } from "../../src/context/context.js"
 import { Link, useNavigate } from "react-router-dom"
 import bg from "../assets/auth-bg.webp"
 import chatbg from "../assets/Chat-bg.jpg"
 import axios from "axios";
 import CustomError from "../components/CustomError.jsx";
-
+import Loading from "../components/Loading.jsx"
 function Register() {
 
   const navigate = useNavigate();
-const [user, setUser] = useState({ name:"", email:"", password:""});
+  const [loading, setLoading] = useState(false);
+const [cuser, setCuser] = useState({ name:"", email:"", password:""});
 const [error, setError] = useState(false);
+
+const {setUser} = useContext(UserContext);
 const handleChange = (e)=>{
   const {name, value} = e.target;
-  setUser((prev)=>({
+  setCuser((prev)=>({
     ...prev,
     [name]:value
   }))
@@ -20,23 +24,27 @@ const handleChange = (e)=>{
 
 const handleSubmit = async(e) =>{
   e.preventDefault();
+  setLoading(true);
   try {
-    const res = await axios.post("http://localhost:3000/api/register", user,
+    const res = await axios.post("http://localhost:3000/api/register", cuser,
       {
       withCredentials:true,
     })
-    console.log(res.data)
-    navigate("/chat")
-    setUser({name:"",email:"",password:""})
-    setError(false)
+    console.log(res.data);
+    setUser(res.data.user)
+    navigate("/chat");
+    setError(false);
+   
   } catch (error) {
     console.log("Error while Registration", error)
      setError(true) 
+     setLoading(false)
   }
 }
 
 
 if (error) return  <CustomError/>
+if (loading) return <Loading/>
 
 
   return (

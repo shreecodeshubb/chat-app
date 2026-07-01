@@ -6,7 +6,10 @@ export const protectHandler = async (req,res,next)=>{
         const token = req.cookies.token;
         if(!token) return res.status(401).json({message:"Unauthorized!"});
         const decode = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = User.findById(decode.id).select("-password");
+       const user = await User.findById(decode.id).select("-password");
+       if(!user) return res.status(401).json({message:"user not found"})
+        req.user = user
+      // console.log(typeof(user));
         next();
 
       } catch (error) {

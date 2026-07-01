@@ -1,11 +1,11 @@
-import { createContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import axios from "axios";
-export const UserContext = createContext();
 
+import { UserContext } from "./context.js";
 
 const UserProvider = ({children}) =>{
 
-const [User, setUser] = useState(null);
+const [user, setUser] = useState(null);
 const [allUser, setAllUser ] = useState([]);
 const [loading, setLoading] = useState(true);
 const [error, setError] = useState(false);
@@ -15,9 +15,12 @@ useEffect(()=>{
       const currentUser = async()=>{
         try {
            const res = await axios.get("http://localhost:3000/api/myUser", {
-            withCredentials:true,
+            withCredentials:true, 
            }) 
+           console.log("current user response", res.data)
            setUser(res.data)
+           setLoading(false)
+            
         } catch (error) {
             console.log("Error of fetching current user", error);
             setError(true)
@@ -41,6 +44,7 @@ useEffect(()=>{
             })
 
             setAllUser(res.data);
+              
 
         } catch (error) {
             
@@ -57,7 +61,7 @@ useEffect(()=>{
 
 
 
-return <UserContext.Provider value={{User,setUser,loading,allUser,setAllUser}}>
+return <UserContext.Provider value={{user,setUser,loading,allUser,setAllUser,error }}>
     {children}
 </UserContext.Provider>
 

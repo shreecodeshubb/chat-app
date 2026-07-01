@@ -1,23 +1,22 @@
-import {UserContext} from '../context/userContext.jsx'
-import { useNavigate } from 'react-router-dom';
+import { UserContext } from '../context/context.js';
+import { Navigate } from 'react-router-dom';
 import CustomError from './CustomError.jsx';
 import { useContext } from 'react';
+import Loading from "../components/Loading.jsx"
 
 function Protected({children}) {
-
-const navigate = useNavigate();
   
-const {User,loading} = useContext(UserContext);
+const {user,loading} = useContext(UserContext);
 
 if(loading) {
-  return <h2>Loading.....!</h2>
+  return <Loading/>
 }
 
+console.log(user)
 
-if(!User){
-return navigate("/login")
+if(!user){
+  return  <Navigate to="/login"  />
 }
-
 
 
 return children;

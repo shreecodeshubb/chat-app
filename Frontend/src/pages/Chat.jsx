@@ -1,16 +1,16 @@
 import { useEffect, useContext } from "react"
 import "./Chat.css"
 import {socket} from "../Socket.js"
-import { UserContext } from "../context/userContext.jsx"
+import { UserContext } from "../context/context.js"
 
 function Chat() {
 
-const {User} = useContext(UserContext);
+const {user} = useContext(UserContext);
 
 
   useEffect(()=>{
 
-    if(!User) return;
+    if(!user) return;
 
 
     socket.connect();
@@ -19,10 +19,20 @@ const {User} = useContext(UserContext);
     socket.on("connect", ()=>{
       console.log("socket connected!")
     })
+
+
+    socket.emit('send', {
+      message:"new message from cilent"
+    })
+
+    socket.on("connect_error", (err) => {
+  console.log("Socket connection error:", err.message);
+});
     return ()=>{
+      socket.off("connect")
       socket.disconnect();
     };
-  },[User])
+  },[user])
 
   return (
     <div style={{display:"flex", height:"100vh", backgroundColor:"lightgray"}}>

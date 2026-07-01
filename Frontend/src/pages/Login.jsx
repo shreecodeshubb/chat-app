@@ -4,15 +4,22 @@ import { useState } from "react"
 import axios from "axios";
 import CustomError from "../components/CustomError.jsx";
 import chatbg from "../assets/Chat-bg.jpg"
+import { UserContext } from "../../src/context/context.js";
+import { useContext } from "react";
+import { toast } from "react-toastify";
+
+
 
 function Login() {
-  const navigate = useNavigate();
-const [user, setUser] = useState({email:"",password:""})
+const navigate = useNavigate();
+const [cuser, setcUser] = useState({email:"",password:""})
 const [error, setError] = useState(false);
+
+const {setUser} =  useContext(UserContext);
 
 const handleChange=(e) =>{
  const {name,value} = e.target;
- setUser((prev)=>({
+ setcUser((prev)=>({
   ...prev,
   [name]:value
  }))
@@ -21,9 +28,12 @@ const handleChange=(e) =>{
 const handleSubmit = async(e) =>{
      e.preventDefault();
      try {
-      const res = await axios.post("http://localhost:3000/api/login", user, {withCredentials:true});
-      console.log(res.data);
-      navigate("/chat")
+      const res = await axios.post("http://localhost:3000/api/login", cuser, {withCredentials:true});
+      console.log("login user", res.data);
+      setUser(res.data.user)
+      navigate("/chat");
+      toast.success("Login successfully")
+
        setError(false);
      } catch (error) {
       console.log("error while login", error);
@@ -43,8 +53,8 @@ const handleSubmit = async(e) =>{
      <div style={{height:"80vh", width:"70vw", display:"flex", justifyContent:"space-evenly", alignItems:"center", backgroundColor:"#ffffff9a"}}>
      <div style={{height:"70vh" }}><img src={chatbg} style={{objectFit:"cover", height:"100%", backgroundSize:"cover", backgroundPosition:"center", borderRadius:"20px",}} /></div>
       <form onSubmit={handleSubmit} style={{ height: "70%", width: "50%", display: "flex", justifyContent: "center", flexDirection: "column", backgroundColor: "rgba(239, 247, 247, 0.68)", alignItems: "center", gap: "30px", borderRadius: "20px" }}>
-        <input  onChange={handleChange} style={{ padding: "1rem 0.9rem", width: "280px", fontSize: "18px", outline: "0.2px solid #000", boxShadow: "2px 5px 5px #000", borderRadius: "10px", backgroundColor: "#e4dadae0", border: "none" }} value={user.email}  type="email" placeholder='Email'name="email" />
-        <input onChange={handleChange}style={{ padding: "1rem 0.9rem", width: "280px", fontSize: "18px", outline: "0.2px solid #000", boxShadow: "2px 5px 5px #000", borderRadius: "10px", backgroundColor: "#e4dadae0", border: "none" }} value={user.password} type="password" placeholder='Password' name="password" />
+        <input  onChange={handleChange} style={{ padding: "1rem 0.9rem", width: "280px", fontSize: "18px", outline: "0.2px solid #000", boxShadow: "2px 5px 5px #000", borderRadius: "10px", backgroundColor: "#e4dadae0", border: "none" }} value={cuser.email ?? ""}  type="email" placeholder='Email'name="email" />
+        <input onChange={handleChange}style={{ padding: "1rem 0.9rem", width: "280px", fontSize: "18px", outline: "0.2px solid #000", boxShadow: "2px 5px 5px #000", borderRadius: "10px", backgroundColor: "#e4dadae0", border: "none" }} value={cuser.password ?? ""} type="password" placeholder='Password' name="password" />
         <button type="submit" style={{ padding: "0.8rem 7rem", borderRadius: "18px", backgroundColor: "#8a90cc" }}>Submit</button>
         <div style={{ display: "flex", justifyContent: "center", alignItems: "center", gap: "10px", flexDirection: "column", }}>
           <p style={{ color: "#584c4c" }}>Don't have an account?</p>
