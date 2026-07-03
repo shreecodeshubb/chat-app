@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom"
 import { useState } from "react"
 import axios from "axios";
 import CustomError from "../components/CustomError.jsx";
-import chatbg from "../assets/Chat-bg.jpg"
+import chatbg from "../assets/chat.png"
 import { UserContext } from "../../src/context/context.js";
 import { useContext } from "react";
 import { toast } from "react-toastify";
@@ -50,9 +50,9 @@ const handleSubmit = async(e) =>{
     <div style={{ height: "100vh", width: "100%", display: "flex", justifyContent: "center", alignItems: "center", flexDirection: "column", gap: "4rem", backgroundImage: `url(${bg})`, backgroundPosition: "center", backgroundSize: "cover" }}>
 
      <h1 style={{fontFamily:"sans-serif", color:"#232726",fontWeight:"400"}}>LOGIN & RESTART YOUR CONVO  💻</h1>
-     <div style={{height:"80vh", width:"70vw", display:"flex", justifyContent:"space-evenly", alignItems:"center", backgroundColor:"#ffffff9a"}}>
-     <div style={{height:"70vh" }}><img src={chatbg} style={{objectFit:"cover", height:"100%", backgroundSize:"cover", backgroundPosition:"center", borderRadius:"20px",}} /></div>
-      <form onSubmit={handleSubmit} style={{ height: "70%", width: "50%", display: "flex", justifyContent: "center", flexDirection: "column", backgroundColor: "rgba(239, 247, 247, 0.68)", alignItems: "center", gap: "30px", borderRadius: "20px" }}>
+     <div style={{height:"75vh", width:"70vw", display:"flex", justifyContent:"space-evenly", alignItems:"center", backgroundColor:"#ffffff9a"}}>
+     <div style={{height:"40vh" }}><img src={chatbg} style={{objectFit:"cover", height:"100%", backgroundSize:"cover", backgroundPosition:"center", borderRadius:"20px",}} /></div>
+      <form onSubmit={handleSubmit} style={{ height: "75%", width: "50%", display: "flex", justifyContent: "center", flexDirection: "column", backgroundColor: "rgba(239, 247, 247, 0.68)", alignItems: "center", gap: "30px", borderRadius: "20px" }}>
         <input  onChange={handleChange} style={{ padding: "1rem 0.9rem", width: "280px", fontSize: "18px", outline: "0.2px solid #000", boxShadow: "2px 5px 5px #000", borderRadius: "10px", backgroundColor: "#e4dadae0", border: "none" }} value={cuser.email ?? ""}  type="email" placeholder='Email'name="email" />
         <input onChange={handleChange}style={{ padding: "1rem 0.9rem", width: "280px", fontSize: "18px", outline: "0.2px solid #000", boxShadow: "2px 5px 5px #000", borderRadius: "10px", backgroundColor: "#e4dadae0", border: "none" }} value={cuser.password ?? ""} type="password" placeholder='Password' name="password" />
         <button type="submit" style={{ padding: "0.8rem 7rem", borderRadius: "18px", backgroundColor: "#8a90cc" }}>Submit</button>

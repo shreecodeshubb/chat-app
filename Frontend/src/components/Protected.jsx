@@ -12,7 +12,7 @@ if(loading) {
   return <Loading/>
 }
 
-console.log(user)
+// console.log(user)
 
 if(!user){
   return  <Navigate to="/login"  />
