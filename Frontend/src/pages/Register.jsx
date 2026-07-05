@@ -48,10 +48,10 @@ if (loading) return <Loading/>
 
 
   return (
-    <div style={{height:"100vh", width:"100%",  display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column", gap:"4rem", backgroundImage:`url(${bg})`, backgroundPosition:"center", backgroundSize:"cover"}}>
+    <div style={{height:"100vh", width:"100%",  display:"flex", justifyContent:"center", alignItems:"center", flexDirection:"column", gap:"4rem", backgroundImage:`url(${bg})`, backgroundPosition:"center", backgroundSize:"cover",  }}>
       
       <h1 style={{fontFamily:"sans-serif", color:"#232726",fontWeight:"400"}}>SIGN UP & CONNECT WITH PEOPLE  💻</h1>
-<div style={{height:"75vh", width:"70vw", display:"flex", justifyContent:"space-evenly", alignItems:"center", backgroundColor:"#ffffff9a"}}>
+<div style={{height:"75vh", width:"70vw", display:"flex", justifyContent:"space-evenly", alignItems:"center"}}>
 <div style={{height:"40vh" }}><img src={chatbg} style={{objectFit:"cover", height:"100%", backgroundSize:"cover", backgroundPosition:"center", borderRadius:"20px",}} /></div>
 
    <form onSubmit={handleSubmit} style={{height:"80%", width:"50%", display:"flex", justifyContent:"center", flexDirection:"column", backgroundColor:"rgba(239, 247, 247, 0.68)", alignItems:"center", gap:"30px", borderRadius:"20px"}}>

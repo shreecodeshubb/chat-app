@@ -31,6 +31,7 @@
     flex: 1;
     background: rgb(215, 219, 219);
     flex-direction: column;
+   
 }
 
 
@@ -46,6 +47,8 @@
     text-align: center;
     margin: 10px 5px;
 }
+
+
 
 .search {
     padding: 10px 20px;
@@ -87,13 +90,13 @@
 }
 
 .back-btn:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(168, 163, 163, 0.1);
 }
 
 .user:hover {
-    background-color: #474849;
+    background-color: #939597;
     cursor: pointer;
-    color: #d3cece;
+    color: #242323;
 
 }
 
@@ -122,6 +125,10 @@
 .logo img {
     height: 100%;
 }
+
+
+
+
 
 /********************** right bar styling ***************************/
 
@@ -266,16 +273,17 @@
 .info .profile-pic img {
     height: 100%;
     border-radius: 50%;
-    box-shadow: 0px 1px 6px rgb(88, 88, 88);
+    box-shadow: 1px 1px 4px rgb(24, 23, 23);
 }
 
 .info .infos {
     display: flex;
     flex-direction: column;
     height: 20rem;
-    width: 90%;
+    width: 85%;
     align-items: center;
-    padding: 10px 10px;
+    /* padding: 10px 10px; */
+    box-shadow: 1px 1px 5px rgb(88, 88, 88);
 
 }
 
@@ -295,5 +303,21 @@
     word-break: break-word;
     text-align: center;
     background-color: #b7b9bb;
+   
 
 }
+
+.logout button{
+    padding: 0.6rem 7rem;
+   border: none;
+   cursor: pointer;
+   box-shadow: 1px 1px 6px gray;
+   border-radius: 5px;
+   color: rgb(41, 40, 40);
+}
+
+.logout button:hover{
+    background-color: #778a9c;
+    color: #ffffff;
+}
+

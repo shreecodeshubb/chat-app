@@ -5,10 +5,36 @@ import { UserContext } from "../context/context.js"
 import img from '../assets/img_avatar.png'
 import chatlogo from '../assets/chat.png'
 import send from '../assets/send.png'
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
+import { toast } from "react-toastify";
 function Chat() {
-
-  const { user } = useContext(UserContext);
+const navigate = useNavigate();
+  const { user, setUser } = useContext(UserContext);
   const [searchOpen,setSearchOpen] = useState(false);
+
+
+const handleLogout = async () => {
+  try {
+    await axios.post(
+      "http://localhost:3000/api/logout",
+      {},
+      {
+        withCredentials: true, 
+      }
+    );
+
+    socket.disconnect(); 
+
+    setUser(null); 
+
+    navigate("/login"); 
+    toast.success("Logout successfully")
+  } catch (err) {
+    console.log("Logout error:", err);
+  }
+};
+
 
   useEffect(() => {
 
@@ -92,7 +118,8 @@ function Chat() {
 
     </div>
           )}
-
+     
+     
           
         </div>
         <div className='right-bar'>
@@ -125,12 +152,15 @@ function Chat() {
        
        <div><h4>this is my bio</h4></div>
        </div>
-       <div className="email"> <div style={{display:"flex", justifyContent:"space-evenly", alignItems:"center", gap:"5px" }}><i className="fi fi-rr-id card"></i> <p>Email</p></div>
+       <div className="email"> <div style={{display:"flex", justifyContent:"space-evenly", alignItems:"center", gap:"5px" }}><i className="fi fi-rr-"></i> <p>Email</p></div>
        
        <div><h4>pdey8589@gmail.com</h4></div>
         </div>
         </div>
-
+ 
+ <div className="logout">
+  <button onClick={handleLogout}><h4>Logout</h4></button>
+ </div>
 
         </div>
       </div>
