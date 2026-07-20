@@ -1,6 +1,7 @@
 import jwt from "jsonwebtoken";
 import User from "../models/userModel.js"
 import bcrypt from "bcrypt";
+import Message from "../models/message.js";
 
 
 
@@ -10,6 +11,7 @@ export const Register = async (req,res)=>{
     
     try {
         const{name, email,password} = req.body;
+       
 
        const existedUser = await User.findOne({email});
        if(existedUser) return res.status(400).json({message:"user Already exist"})
@@ -31,7 +33,7 @@ export const Register = async (req,res)=>{
       message:"Registered successful",
       user:{
         id: user._id,
-        email: user.email
+        email: user.email,
       }
     });
        
@@ -75,7 +77,9 @@ res.cookie("token", token,{
       message:"Login successful",
       user:{
         id: existUser._id,
-        email: existUser.email
+        email: existUser.email,
+        name: existUser.name
+
       }
     });
 
@@ -123,4 +127,96 @@ export const allUsers = async (req,res)=>{
     _id:{ $ne : req.user._id},
   }).select("-password")
   res.json(alluser);
+}
+
+
+//      MESSAGE CONTROLLER   //
+
+//get messeges....
+
+export const fetchMSg = async (req,res)=>{
+ 
+const senderid = req.user.id;
+const recieverId = req.params.userid;
+
+const messages = await Message.find({
+  $or:[{
+    sender: senderid,
+    receiver:recieverId
+  }, {
+    sender: recieverId,
+    receiver: senderid
+  }]
+}).sort({createdAt:1})
+
+
+   
+res.json(messages);
+
+}
+
+
+//delete messeges....
+
+
+export const deleteMsg = async (req, res)=>{
+    const senderid = req.user.id;
+    const recieverid = req.params.userid;  
+
+
+   await Message.deleteMany({
+    $or: [{
+      sender: senderid,
+      receiver: recieverid
+    },
+  {
+    sender: recieverid,
+    receiver: senderid
+  }]
+   })
+
+   res.json({success:true, messege:"Cleared successfully!"})
+
+}
+
+//DELETE USER CONTROLLER
+
+export const deleteUser = async (req,res)=>{
+
+
+  try {
+    const userid = req.user.id;
+  
+  await User.findByIdAndDelete(userid);
+  res.clearCookie("token");
+
+  return res.status(200).json({
+    success:true,
+    message:"Account Deleted Successfully"
+  })
+  } catch (error) {
+     console.log("Error while deleting the user")
+  }
+
+}
+
+
+
+//EDIT CONTROLLER
+
+export const editProfile = async (req,res) =>{
+    
+   const id = req.user.id;
+
+   const user = await User.findByIdAndUpdate( id, {
+         avatar: req.file?.filename,
+            bio: req.body.bio,
+            name: req.body.name,
+   },
+  {
+    returnDocument:true
+  })
+ 
+  res.json(user)
+
 }

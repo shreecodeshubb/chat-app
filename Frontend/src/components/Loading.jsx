@@ -9,7 +9,7 @@ function Loading() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor:"#bdb6b6d2",
+        // backgroundColor:"#bdb6b6d2",
         flexDirection:"column"
       }}
     >

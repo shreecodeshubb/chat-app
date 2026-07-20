@@ -4,15 +4,23 @@ import { socket } from "../Socket.js"
 import { UserContext } from "../context/context.js"
 import img from '../assets/img_avatar.png'
 import chatlogo from '../assets/chat.png'
+import more from '../assets/more.png'
 import send from '../assets/send.png'
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 function Chat() {
 const navigate = useNavigate();
-  const { user, setUser } = useContext(UserContext);
+  const { user, setUser,allUser } = useContext(UserContext);
   const [searchOpen,setSearchOpen] = useState(false);
+  const [moremenu, setMoremenu] = useState(false);
+  const [selectUser, setSelectuser] = useState(null);
+  const [delMenu, setDelMenu] = useState(false);
 
+  // message state -----------
+  const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  
 
 const handleLogout = async () => {
   try {
@@ -35,6 +43,10 @@ const handleLogout = async () => {
   }
 };
 
+const handleEdit = ()=>{
+  navigate("/edit")
+}
+
 
   useEffect(() => {
 
@@ -49,9 +61,14 @@ const handleLogout = async () => {
     })
 
 
-    socket.emit('send', {
-      message: "new message from cilent"
-    })
+    
+      socket.on("recieveMsg", (msg) =>{
+        setMessages(prev =>[...prev, msg]);
+      })
+
+    // socket.emit('send', {
+    //   message: "new message from cilent"
+    // })
 
     socket.on("connect_error", (err) => {
       console.log("Socket connection error:", err.message);
@@ -62,6 +79,48 @@ const handleLogout = async () => {
     };
   }, [user])
 
+useEffect(()=>{
+  if(!selectUser) return;
+  
+  loadMessage();
+
+},[selectUser])
+
+
+
+const sendMsg = ()=>{
+
+  if(!message.trim() || !selectUser) return;
+  socket.emit("send", {
+    recieverId : selectUser._id,
+    text:message
+  } );
+  setMessage("")
+}
+
+const loadMessage = async ()=>{
+  const res = await axios.get(`http://localhost:3000/api/messages/${selectUser._id}`, {
+    withCredentials:true
+  });
+
+  setMessages(res.data);
+
+}
+
+
+const deleteMsg = async ()=>{
+   await axios.delete(`http://localhost:3000/api/messages/${selectUser._id}`, {
+    withCredentials:true
+   });
+
+   setMessages([]);
+
+  // console.log("delete msg")
+}
+
+
+
+
   return (
     <div className="main">
 
@@ -69,6 +128,7 @@ const handleLogout = async () => {
         <div className='left-bar'>
           {!searchOpen?(
             <><div className="logo"> <img src={chatlogo} alt="" />
+            
           
         <input
   className="search"
@@ -76,20 +136,25 @@ const handleLogout = async () => {
   placeholder="Search"
   onClick={() => setSearchOpen(true)}
   readOnly
-/>        
+/>      
+
            </div>
           {/* individual users */}
-
-          <div className="user">
-            <div className="dp"><img src={img} alt="DP" /></div>
-            <div> <h4>Puja Dey</h4>
+          
+           {allUser.map((users)=>
+            (<div className="user" key={users._id} onClick={()=> setSelectuser(users)}>
+            <div className="dp"><img src={users.avatar? `http://localhost:3000/upload/${users.avatar}`: img} alt="DP" /></div>
+            <div> <h4>{users.name}</h4>
               <p >Hi How are you</p>
             </div>
             <div><h3 style={{backgroundColor:"#e0e6e0", borderRadius:"55%"}}>2</h3>
               <span>Now</span>
             </div>
 
-          </div></>
+          </div>))}
+          
+          
+          </>
           ):(
            <div className="search-page">
 
@@ -123,44 +188,88 @@ const handleLogout = async () => {
           
         </div>
         <div className='right-bar'>
-             
-           <div className="user-info"><img src={img} alt="" />
-              <h3>Puja Dey</h3>
+
+
+          {selectUser? ( <><div className="user-info"> <div className="info-img"><img src={`http://localhost:3000/upload/${selectUser.avatar}`} alt="" /> </div> 
+              <h3>{selectUser.name}</h3>
+              <div className="del" onClick={()=> setDelMenu(!delMenu)}> <img src={more} alt="more" /></div>
+       {delMenu&&(
+        <div className="clear-div" onClick={deleteMsg} >
+  
+      <p  >Clear Message</p>
+   
+
+  </div>
+       )}
+
+              <div></div>
            </div>
-           <div className="messeges">
+
+            <div className="messeges">
+               {messages.map((msg)=>(
+
+           <div key={msg._id}
+           className={
+            msg.sender === user._id ? "send":"recieve"
+           }
+           
+           > 
+            <h4>{msg.text}</h4>
+            
+             </div>
+
+               ))}
               
-           <div className="send">  <h4>nhdkjcbdajhc hjdscgsdhv hjadsgadjgfah</h4></div>
-           <div className="recieve">    <h4>bcvhfsdhgs jhsdgdhssdhg dfdhfgdhfgdfg</h4></div>
 
 
            </div>
            <div className="text-bar">
-            <input type="text" />
-            <button className="button"><img src={send}alt="" /></button>
+            <input 
+            value={message}
+            onChange={(e)=>setMessage(e.target.value)}
+            type="text" />
+            <button type="submit" className="button" onClick={sendMsg}><img src={send}alt="" /></button>
            </div>
+           </>
+          ): (   
+           <div className="user-info"><div className="info-img"><img src={user.avatar? `http://localhost:3000/upload/${user.avatar}`: img} alt="dp" /> </div>
+              <h3>no user</h3>
+           </div>)}
+             
+       
 
         </div>
         <div className="info">
-       <div className="heading"> <h3>Profile</h3></div>
-       <div className="profile-pic"> <img src={img} alt="dp" /></div>
+       <div className="more" onClick={()=> setMoremenu(!moremenu)}> <img src={more} alt="more" /></div>
+       {moremenu&&(
+        <div className="menudiv">
+    <div className="menu-item">
+      <p onClick={handleEdit} >Edit</p>
+    </div>
+
+    <div className="menu-item">
+      <p onClick={handleLogout}>Logout</p>
+    </div>
+  </div>
+       )}
+       
+       
+       <div className="heading"> <h3>Profile</h3> </div>
+       <div className="profile-pic"> <img src={user.avatar? `http://localhost:3000/upload/${user.avatar}`: img} alt="dp" /></div>
        <div className="infos"> 
         <div className="name"> <div style={{display:"flex", justifyContent:"space-evenly", alignItems:"center" }}>  <i className="fi fi-rr-user"> Name</i> </div>
-        <div> <h4>Puja Dey</h4></div> 
+        <div> <h4>{user.name}</h4></div> 
         
         </div>
        <div className="about"> <div style={{display:"flex", justifyContent:"space-evenly", alignItems:"center", gap:"5px" }}> <i className="fi fi-rr-info"></i> <p>Bio</p> </div> 
        
-       <div><h4>this is my bio</h4></div>
+       <div><h4>{user.bio}</h4></div>
        </div>
        <div className="email"> <div style={{display:"flex", justifyContent:"space-evenly", alignItems:"center", gap:"5px" }}><i className="fi fi-rr-"></i> <p>Email</p></div>
        
-       <div><h4>pdey8589@gmail.com</h4></div>
+       <div><h4>{user.email}</h4></div>
         </div>
         </div>
- 
- <div className="logout">
-  <button onClick={handleLogout}><h4>Logout</h4></button>
- </div>
 
         </div>
       </div>

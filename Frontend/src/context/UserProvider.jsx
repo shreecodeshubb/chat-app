@@ -42,8 +42,9 @@ useEffect(()=>{
             const res = await axios.get("http://localhost:3000/api/allUsers", {
                 withCredentials:true,
             })
-
+              console.log(res.data)
             setAllUser(res.data);
+          
               
 
         } catch (error) {

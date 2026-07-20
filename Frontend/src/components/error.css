@@ -4,7 +4,7 @@ display: flex;
 justify-content: center;
 align-items: center;
 color: rgb(241, 239, 239);
-background-color: black;
+background-color: rgb(34, 34, 34);
 font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 font-size: x-large;
 flex-direction: column;

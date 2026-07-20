@@ -38,6 +38,8 @@ const handleSubmit = async(e) =>{
      } catch (error) {
       console.log("error while login", error);
       setError(true);
+      toast.error("No user Found")
+      setcUser({email:"",password:""})
      }
 }
 

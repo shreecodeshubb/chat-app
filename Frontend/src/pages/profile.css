@@ -1,0 +1,78 @@
+.profile-main{
+    height: 100vh;
+    width: 100vw;
+    background-color: rgb(48, 46, 46);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 2rem;
+    color: rgb(214, 222, 230);
+}
+.profile-main .back{
+    
+border: none;
+padding: 8px 10px;
+border-radius: 10px;
+box-shadow: 1px 1px 3px rgb(231, 228, 228);
+text-align: center;
+background-color: rgb(143, 107, 224);
+}
+
+.back:hover{
+    background-color: aliceblue;
+    cursor: pointer;
+}
+
+
+.profile-main form{
+    height: 50vh;
+    width: 50vw;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 10px 10px;
+    align-items: center;
+    justify-content: center;
+    background-color: rgb(154, 136, 155);
+}
+.profile-main form input{
+    padding: 10px 20px;
+    height: 4rem;
+    font-size: 20px ;
+    border: none;
+    outline: none;
+    box-shadow: 1px 1px 5px rgb(102, 102, 102);
+    background-color: rgb(201, 195, 188);
+    border-radius: 5px;
+}
+
+.profile-main form .btn{
+    padding: 15px 15px;
+    width: 18rem;
+    /* border: 1px solid black; */
+    border-radius: 5px;
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.profile-main form .btn button{
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    color: aliceblue;
+    box-shadow: 1px 1px 5px grey;
+}
+
+.profile-main form .btn button:hover{
+    background-color: rgb(182, 196, 183);
+    cursor: pointer;
+    color: black;
+}
+
+.profile-main form .btn .save{
+    background-color: rgb(48, 138, 108);
+}
+.profile-main form .btn .del{
+    background-color: rgb(153, 35, 6);
+}
