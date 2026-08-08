@@ -29,11 +29,10 @@ const handleSubmit = async(e) =>{
      e.preventDefault();
      try {
       const res = await axios.post("http://localhost:3000/api/login", cuser, {withCredentials:true});
-      console.log("login user", res.data);
-      setUser(res.data.user)
+      setUser(res.data.user);
+      console.log("logged in user from login res",res.data.user)
       navigate("/chat");
       toast.success("Login successfully")
-
        setError(false);
      } catch (error) {
       console.log("error while login", error);

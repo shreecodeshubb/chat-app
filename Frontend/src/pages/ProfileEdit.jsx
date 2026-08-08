@@ -8,7 +8,7 @@ import { UserContext } from "../context/context.js";
 
 
 function ProfileEdit() {
-  const {setUser} = useContext(UserContext);
+  const {setUser,user} = useContext(UserContext);
 
 const [editUser, setEditUser] = useState({name:"", bio:""});
 const [avatar, setAvatar] = useState(null);
@@ -49,18 +49,22 @@ const formData = new FormData();
 
 formData.append("name", editUser.name);
 formData.append("bio", editUser.bio);
-formData.append("avatar", avatar);
 
+if(avatar){
+formData.append("avatar", avatar);
+}
 try {
 
 const res = await axios.put("http://localhost:3000/api/profile/edit", formData,{
   withCredentials:true
 });
-toast.success(res.status);
-// setEditUser({name:"", bio:""})
-// setAvatar(null)
 setUser(res.data);
+toast.success("Successfully updated");
+console.log("edited user res", res.data.avatar);
+
 navigate("/chat")
+
+
 
 } catch (error) {
   console.log("error while submit edit")

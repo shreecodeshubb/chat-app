@@ -2,6 +2,8 @@ import jwt from "jsonwebtoken";
 import User from "../models/userModel.js"
 import bcrypt from "bcrypt";
 import Message from "../models/message.js";
+import path from 'path';
+import fs from 'fs';
 
 
 
@@ -78,7 +80,9 @@ res.cookie("token", token,{
       user:{
         id: existUser._id,
         email: existUser.email,
-        name: existUser.name
+        name: existUser.name,
+        avatar: existUser.avatar,
+        bio: existUser.bio,
 
       }
     });
@@ -207,6 +211,17 @@ export const deleteUser = async (req,res)=>{
 export const editProfile = async (req,res) =>{
     
    const id = req.user.id;
+   const Currentuser = await User.findById(id);
+
+   if(Currentuser.avatar){
+    const oldPath = path.join("upload", Currentuser.avatar);
+    if( fs.existsSync(oldPath)){
+      fs.unlinkSync(oldPath)
+    }
+   }
+
+
+
 
    const user = await User.findByIdAndUpdate( id, {
          avatar: req.file?.filename,
@@ -217,6 +232,7 @@ export const editProfile = async (req,res) =>{
     returnDocument:true
   })
  
-  res.json(user)
+ const updateuser = await user.save();
+ res.json(updateuser);
 
 }

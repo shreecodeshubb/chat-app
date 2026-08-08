@@ -17,6 +17,7 @@ const navigate = useNavigate();
   const [selectUser, setSelectuser] = useState(null);
   const [delMenu, setDelMenu] = useState(false);
 
+  
   // message state -----------
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
@@ -66,10 +67,6 @@ const handleEdit = ()=>{
         setMessages(prev =>[...prev, msg]);
       })
 
-    // socket.emit('send', {
-    //   message: "new message from cilent"
-    // })
-
     socket.on("connect_error", (err) => {
       console.log("Socket connection error:", err.message);
     });
@@ -109,9 +106,11 @@ const loadMessage = async ()=>{
 
 
 const deleteMsg = async ()=>{
-   await axios.delete(`http://localhost:3000/api/messages/${selectUser._id}`, {
+   const res =   await axios.delete(`http://localhost:3000/api/messages/${selectUser._id}`, {
     withCredentials:true
    });
+
+   console.log(res.data);
 
    setMessages([]);
 
@@ -141,7 +140,7 @@ const deleteMsg = async ()=>{
            </div>
           {/* individual users */}
           
-           {allUser.map((users)=>
+           {allUser?.map((users)=>
             (<div className="user" key={users._id} onClick={()=> setSelectuser(users)}>
             <div className="dp"><img src={users.avatar? `http://localhost:3000/upload/${users.avatar}`: img} alt="DP" /></div>
             <div> <h4>{users.name}</h4>
