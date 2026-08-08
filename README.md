@@ -5,18 +5,18 @@ The project demonstrates how to build a real-world chat system with authenticati
 
 
 🚀 **Features** 
-   User registration and login.
-   JWT authentication using HTTP cookies
-   Protected routes
-   Real-time one-to-one messaging with Socket.IO
-   User list and user search
-   Send and receive messages instantly
-   Fetch previous conversation history
-   Display the latest message in the inbox
-   Unread message count
-   User profile management
-   Profile/avatar upload
-   Update username and bio
-   Online user/socket connection handling
-   MongoDB database integration
-   React Context API for global user state
+   User registration and login,
+   JWT authentication using HTTP cookies,
+   Protected routes,
+   Real-time one-to-one messaging with Socket.IO,
+   User list and user search,
+   Send and receive messages instantly,
+   Fetch previous conversation history,
+   Display the latest message in the inbox,
+   Unread message count,
+   User profile management,
+   Profile/avatar upload,
+   Update username and bio,
+   Online user/socket connection handling,
+   MongoDB database integration,
+   React Context API for global user state.
